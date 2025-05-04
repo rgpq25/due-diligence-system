@@ -1,58 +1,72 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
+import { useEffect, useState } from "react";
+import "./index.css";
+import { Button } from "./components/ui/button";
+import { Proveedor } from "./lib/types";
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+	const [proveedores, setProveedores] = useState<Proveedor[] | undefined>();
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
-    return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-
-    async function populateWeatherData() {
-        const response = await fetch('api/Paises');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
+	async function getProveedores() {
+		const response = await fetch("api/Proveedores");
+		if (response.ok) {
+			const data = await response.json();
+			setProveedores(data);
+		} else {
+            setProveedores([]); //TODO: HANDLE ERROR
         }
-    }
+	}
+
+	useEffect(() => {
+		getProveedores();
+	}, []);
+
+	const contents =
+		proveedores === undefined ? (
+			<p>
+				<em>
+					Loading... Please refresh once the ASP.NET backend has
+					started. See{" "}
+					<a href="https://aka.ms/jspsintegrationreact">
+						https://aka.ms/jspsintegrationreact
+					</a>{" "}
+					for more details.
+				</em>
+			</p>
+		) : (
+			<table className="table table-striped" aria-labelledby="tableLabel">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Razon Social</th>
+						<th>Nombre Comercial</th>
+						<th>Identificacion Tributaria</th>
+						<th>Numero telefonico</th>
+                        <th>Correo electronico</th>
+					</tr>
+				</thead>
+				<tbody>
+					{proveedores.map((proveedor, idx) => (
+						<tr key={proveedor.razonSocial}>
+							<td>{idx}</td>
+							<td>{proveedor.nombreComercial}</td>
+							<td>{proveedor.identifcacionTributaria}</td>
+							<td>{proveedor.numeroTelefonico}</td>
+							<td>{proveedor.correoElectronico}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		);
+
+	return (
+		<div className="p-6">
+			<p className="text-4xl font-bold">Proveedores</p>
+			<p className="text-muted-foreground">
+				This component demonstrates fetching data from the server.
+			</p>
+			{contents}
+		</div>
+	);
 }
 
 export default App;
