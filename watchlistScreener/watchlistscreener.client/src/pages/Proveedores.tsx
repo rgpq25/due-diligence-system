@@ -9,7 +9,12 @@ export default function Proveedores() {
 	const [proveedores, setProveedores] = useState<Proveedor[] | undefined>();
 
 	async function getProveedores() {
-		const response = await fetch("api/Proveedores");
+		const response = await fetch("api/Proveedores", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 		if (response.ok) {
 			const data = await response.json();
 			setProveedores(data);
@@ -43,7 +48,12 @@ export default function Proveedores() {
 						Explora los proveedores disponibles en el sistema.
 					</p>
 				</section>
-				<Link className={buttonVariants({ size: 'lg' })} to={'/nuevo-proveedor'}>Crear proveedor</Link>
+				<Link
+					className={buttonVariants({ size: "lg" })}
+					to={"/nuevo-proveedor"}
+				>
+					Crear proveedor
+				</Link>
 			</header>
 			{contents}
 		</main>

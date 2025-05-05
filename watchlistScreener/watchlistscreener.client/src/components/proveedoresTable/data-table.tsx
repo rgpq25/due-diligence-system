@@ -18,13 +18,13 @@ import {
 import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
-    className?: string;
+	className?: string;
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
 
 export function DataTable<TData, TValue>({
-    className,
+	className,
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
@@ -33,6 +33,35 @@ export function DataTable<TData, TValue>({
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	});
+
+	function fetchScreening({
+		razonSocial,
+		nombreComercial,
+		identificacionTributaria,
+	}: {
+		razonSocial: string;
+		nombreComercial: string;
+		identificacionTributaria: string;
+	}) {
+		console.log("Fetching screening for:", {
+			razonSocial,
+			nombreComercial,
+			identificacionTributaria,
+		});
+        
+		fetch(
+			`http://localhost:3000/api/watchlist-check?razonSocial=${razonSocial}&nombreComercial=${nombreComercial}&identificacionTributaria=${identificacionTributaria}&sources=interpol,smv,secop`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => console.log(data))
+			.catch((error) => console.error(error));
+	}
 
 	return (
 		<div className={cn("rounded-md border", className)}>
@@ -53,6 +82,7 @@ export function DataTable<TData, TValue>({
 									</TableHead>
 								);
 							})}
+							<TableHead></TableHead>
 						</TableRow>
 					))}
 				</TableHeader>
@@ -71,6 +101,22 @@ export function DataTable<TData, TValue>({
 										)}
 									</TableCell>
 								))}
+								<TableCell
+									onClick={() =>
+										fetchScreening({
+											razonSocial:
+												row.getValue("razonSocial"),
+											nombreComercial:
+												row.getValue("nombreComercial"),
+											identificacionTributaria:
+												row.getValue(
+													"identificacionTributaria"
+												),
+										})
+									}
+								>
+									Screen
+								</TableCell>
 							</TableRow>
 						))
 					) : (
