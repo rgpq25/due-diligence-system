@@ -119,11 +119,11 @@ export default function NuevoProveedor() {
 				body: JSON.stringify(values),
 			});
 
-            // window.location.href = "/";
-            console.log(response)
+			window.location.href = "/";
+			console.log(response);
 		} catch (error) {
-            console.error("Error creating provider:", error);
-        }
+			console.error("Error creating provider:", error);
+		}
 		console.log(values);
 	}
 

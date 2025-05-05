@@ -4,7 +4,7 @@
     {
         public required string RazonSocial { get; set; }
         public required string NombreComercial { get; set; }
-        public required int IdentificacionTributaria { get; set; }
+        public required long IdentificacionTributaria { get; set; }
         public required string NumeroTelefonico { get; set; }
         public required string CorreoElectronico { get; set; }
         public required string SitioWeb { get; set; }

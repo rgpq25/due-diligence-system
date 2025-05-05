@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using watchlistScreener.Server.Data;
 using watchlistScreener.Server.Models;
 using watchlistScreener.Server.Models.Entities;
@@ -19,7 +20,11 @@ namespace watchlistScreener.Server.Controllers
         [HttpGet]
         public IActionResult GetAllProveedores()
         {
-            var allProveedores = dbContext.Proveedores.ToList();
+            var allProveedores = dbContext.Proveedores
+                .Where(p => p.EsActivo == true)
+                .Include(p => p.Pais)
+                .ToList();
+
             return Ok(allProveedores);
         }
 

@@ -8,6 +8,7 @@ export type Proveedor = {
     sitioWeb: string;
     direccionFisica: string;
     paisId: string;
+    pais?: Pais;
     facturacionAnual: number;
 }
 

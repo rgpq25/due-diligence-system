@@ -86,10 +86,6 @@ export default defineConfig({
 				target,
 				secure: false,
 			},
-			"^/api/Proveedores/{id}": {
-				target,
-				secure: false,
-			},
 		},
 		port: parseInt(env.DEV_SERVER_PORT || "53602"),
 		https: {

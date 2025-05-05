@@ -33,7 +33,7 @@ export const columns: ColumnDef<Proveedor>[] = [
 		header: "Dirección Fisica",
 	},
 	{
-		accessorKey: "paisId",
+		accessorFn: (row) => row.pais?.nombre || row.paisId,
 		header: "Pais",
 	},
 	{
