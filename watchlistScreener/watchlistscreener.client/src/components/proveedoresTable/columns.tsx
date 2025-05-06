@@ -2,42 +2,140 @@
 
 import { Proveedor } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, ScanSearch, SquarePen, Trash2 } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { DataTableColumnHeader } from "./data-table-column-header";
 
 export const columns: ColumnDef<Proveedor>[] = [
 	{
 		accessorKey: "razonSocial",
-		header: "Razón Social",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Razón Social" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("razonSocial")}</p>;
+		},
 	},
 	{
 		accessorKey: "nombreComercial",
-		header: "Nombre Comercial",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Nombre Comercial" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("nombreComercial")}</p>;
+		},
 	},
 	{
 		accessorKey: "identificacionTributaria",
-		header: "Identificación Tributaria",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="ID Tributaria" />
+		),
+		cell: ({ row }) => {
+			return (
+				<p className="ml-2">
+					{row.getValue("identificacionTributaria")}
+				</p>
+			);
+		},
 	},
 	{
 		accessorKey: "numeroTelefonico",
-		header: "Numero Telefonico",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Nro Telefonico" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("numeroTelefonico")}</p>;
+		},
 	},
 	{
 		accessorKey: "correoElectronico",
-		header: "Correo Electronico",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Correo" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("correoElectronico")}</p>;
+		},
 	},
 	{
 		accessorKey: "sitioWeb",
-		header: "Sitio Web",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Sitio Web" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("sitioWeb")}</p>;
+		},
 	},
 	{
 		accessorKey: "direccionFisica",
-		header: "Dirección Fisica",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Direc. Fisica" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("direccionFisica")}</p>;
+		},
 	},
 	{
+		id: "pais",
 		accessorFn: (row) => row.pais?.nombre || row.paisId,
-		header: "Pais",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="País" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("pais")}</p>;
+		},
 	},
 	{
 		accessorKey: "facturacionAnual",
-		header: "Facturacion Anual",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Facturacion Anual" />
+		),
+		cell: ({ row }) => {
+			return <p className="ml-2">{row.getValue("facturacionAnual")}</p>;
+		},
+	},
+	{
+		id: "actions",
+		cell: ({ row }) => {
+			const proveedor = row.original;
+
+			return (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="ghost" className="ml-auto h-8 w-8 p-0">
+							<span className="sr-only">Open menu</span>
+							<MoreHorizontal className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuLabel className="font-semibold">
+							Acciones
+						</DropdownMenuLabel>
+						<DropdownMenuItem
+							onClick={() => console.log(proveedor)}
+						>
+							<SquarePen className="stroke-black" />
+							Editar
+						</DropdownMenuItem>
+						<DropdownMenuItem className="text-red-500">
+							<Trash2 className="stroke-red-500" />
+							Eliminar
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<ScanSearch className="stroke-black" />
+							Screening
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			);
+		},
 	},
 ];

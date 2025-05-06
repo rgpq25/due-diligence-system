@@ -45,10 +45,6 @@ namespace watchlistScreener.Server.Controllers
         [HttpPost]
         public IActionResult AddProveedor(AddProveedorDto dto)
         {
-            //debug print
-            Console.WriteLine("DTO recibido:");
-            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(dto));
-
             var pais = dbContext.Paises.Find(dto.PaisId);
             if (pais is null)
             {
@@ -120,7 +116,7 @@ namespace watchlistScreener.Server.Controllers
                 return NotFound();
             }
 
-            dbContext.Proveedores.Remove(proveedor);
+            proveedor.EsActivo = false;
             dbContext.SaveChanges();
 
             return Ok();

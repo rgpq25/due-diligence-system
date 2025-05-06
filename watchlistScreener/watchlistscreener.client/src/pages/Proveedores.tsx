@@ -36,7 +36,7 @@ export default function Proveedores() {
 				</em>
 			</p>
 		) : (
-			<DataTable className="mt-4" columns={columns} data={proveedores} />
+			<DataTable className="" columns={columns} data={proveedores} />
 		);
 
 	return (
