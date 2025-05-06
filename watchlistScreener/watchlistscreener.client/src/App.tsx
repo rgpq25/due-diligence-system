@@ -11,7 +11,7 @@ function App() {
 				<Route path="/" element={<Proveedores />} />
 				<Route path="/nuevo-proveedor" element={<NuevoProveedor />} />
 			</Routes>
-			<Toaster />
+			<Toaster richColors/>
 		</BrowserRouter>
 	);
 }

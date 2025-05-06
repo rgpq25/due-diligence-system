@@ -78,12 +78,15 @@ function NewProveedorModal({ children }: { children: React.ReactNode }) {
 				body: JSON.stringify(values),
 			});
 
-			window.location.href = "/";
-			console.log(response);
+			if (!response.ok) {
+				throw new Error("Error creando proveedor");
+			}
+
+			toast.success("Proveedor creado con éxito");
 		} catch (error) {
-			console.error("Error creating provider:", error);
+			console.error("Error creando proveedor:", error);
+			toast.error("Error creando proveedor");
 		}
-		toast.success("Proveedor creado con éxito");
 	}
 
 	return (
@@ -265,8 +268,8 @@ function NewProveedorModal({ children }: { children: React.ReactNode }) {
 														</Button>
 													</FormControl>
 												</PopoverTrigger>
-												<PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]">
-													<Command>
+												<PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]" style={{ pointerEvents: "auto" }}>
+													<Command className="">
 														<CommandInput placeholder="Buscar país..." />
 														<CommandList>
 															<CommandEmpty>

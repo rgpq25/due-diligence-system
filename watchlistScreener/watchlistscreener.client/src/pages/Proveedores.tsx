@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Proveedor } from "@/lib/types";
-import { DataTable } from "@/components/proveedoresTable/data-table";
-import { columns } from "@/components/proveedoresTable/columns";
-import { Link } from "react-router-dom";
-import { Button, buttonVariants } from "@/components/ui/button";
 import NewProveedorModal from "@/components/new-proveedor-modal";
+import { columns } from "@/components/proveedoresTable/columns";
+import { DataTable } from "@/components/proveedoresTable/data-table";
+import { Button } from "@/components/ui/button";
+import { Proveedor } from "@/lib/types";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Proveedores() {
 	const [proveedores, setProveedores] = useState<Proveedor[] | undefined>();
@@ -30,18 +30,15 @@ export default function Proveedores() {
 
 	const contents =
 		proveedores === undefined ? (
-			<p>
-				<em>
-					Loading... Please refresh once the ASP.NET backend has
-					started.
-				</em>
-			</p>
+			<main className="flex-1 flex">
+				<Loader2 className="animate-spin size-8 m-auto" />
+			</main>
 		) : (
 			<DataTable className="" columns={columns} data={proveedores} />
 		);
 
 	return (
-		<main className="p-8">
+		<main className="p-8 flex flex-col min-h-dvh">
 			<header className="flex flex-row justify-between items-center">
 				<section className="flex flex-col">
 					<p className="text-3xl font-bold">Proveedores</p>
