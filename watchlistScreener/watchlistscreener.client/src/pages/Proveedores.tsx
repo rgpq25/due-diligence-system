@@ -3,7 +3,8 @@ import { Proveedor } from "@/lib/types";
 import { DataTable } from "@/components/proveedoresTable/data-table";
 import { columns } from "@/components/proveedoresTable/columns";
 import { Link } from "react-router-dom";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import NewProveedorModal from "@/components/new-proveedor-modal";
 
 export default function Proveedores() {
 	const [proveedores, setProveedores] = useState<Proveedor[] | undefined>();
@@ -48,12 +49,15 @@ export default function Proveedores() {
 						Explora los proveedores disponibles en el sistema.
 					</p>
 				</section>
-				<Link
+				{/* <Link
 					className={buttonVariants({ size: "lg" })}
 					to={"/nuevo-proveedor"}
 				>
 					Crear proveedor
-				</Link>
+				</Link> */}
+				<NewProveedorModal>
+					<Button>Crear proveedor</Button>
+				</NewProveedorModal>
 			</header>
 			{contents}
 		</main>

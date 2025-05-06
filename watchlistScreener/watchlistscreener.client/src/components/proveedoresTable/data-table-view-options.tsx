@@ -29,7 +29,7 @@ export function DataTableViewOptions<TData>({
 					className="ml-auto hidden lg:flex"
 				>
 					<Settings2 />
-					View
+					Vista
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-[250px]">
