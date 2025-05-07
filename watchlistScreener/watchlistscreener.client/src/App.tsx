@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Proveedores from "./pages/Proveedores";
-import "./index.css";
-import NuevoProveedor from "./pages/NuevoProveedor";
 import { Toaster } from "sonner";
+import "./index.css";
+import Proveedores from "./pages/Proveedores";
+import ProveedorScreening from "./pages/ProveedorScreening";
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Proveedores />} />
-				<Route path="/nuevo-proveedor" element={<NuevoProveedor />} />
+				<Route path="/screening" element={<ProveedorScreening />} />
 			</Routes>
-			<Toaster richColors/>
+			<Toaster richColors />
 		</BrowserRouter>
 	);
 }

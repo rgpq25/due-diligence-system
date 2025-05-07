@@ -27,6 +27,21 @@ export function getColumns({
 }: ColumnProps): ColumnDef<Proveedor>[] {
 	const columns: ColumnDef<Proveedor>[] = [
 		{
+			id: "#",
+			header: () => (
+				<p className="text-muted-foreground text-xs font-medium group-hover:text-black ml-2">
+					#
+				</p>
+			),
+			cell: ({ row }) => {
+				return (
+					<p className="ml-2 text-muted-foreground text-xs">
+						{row.index + 1}
+					</p>
+				);
+			},
+		},
+		{
 			accessorKey: "razonSocial",
 			header: ({ column }) => (
 				<DataTableColumnHeader column={column} title="Razón Social" />
