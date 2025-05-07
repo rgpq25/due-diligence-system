@@ -1,8 +1,8 @@
 export type Proveedor = {
     id: string;
     razonSocial: string;
-    nombreComercial: number;
-    identifcacionTributaria: number;
+    nombreComercial: string;
+    identificacionTributaria: number;
     numeroTelefonico: string;
     correoElectronico: string;
     sitioWeb: string;
@@ -10,6 +10,7 @@ export type Proveedor = {
     paisId: string;
     pais?: Pais;
     facturacionAnual: number;
+    fechaUltimaEdicion: string;
 }
 
 export type Pais = {

@@ -22,7 +22,7 @@ function PopoverContent({
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content>) {
   return (
-    <PopoverPrimitive.Portal>
+    // <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
         data-slot="popover-content"
         align={align}
@@ -33,7 +33,7 @@ function PopoverContent({
         )}
         {...props}
       />
-    </PopoverPrimitive.Portal>
+    // </PopoverPrimitive.Portal>
   )
 }
 
@@ -43,4 +43,6 @@ function PopoverAnchor({
   return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />
 }
 
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }
+const PopoverPortal = PopoverPrimitive.Portal
+
+export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor, PopoverPortal }

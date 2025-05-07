@@ -1,5 +1,3 @@
-"use client";
-
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -22,15 +20,8 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
@@ -169,7 +160,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<DataTablePagination table={table} className={"mt-2"}/>
+			<DataTablePagination table={table} className={"mt-2"} />
 		</div>
 	);
 }

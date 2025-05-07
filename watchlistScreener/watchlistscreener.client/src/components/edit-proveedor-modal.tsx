@@ -3,7 +3,6 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Pais, Proveedor } from "@/lib/types";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -12,14 +11,15 @@ import { useEffect, useState } from "react";
 import ProveedorForm from "./proveedor-form";
 import { toast } from "sonner";
 
-function NewProveedorModal({
-	addProveedor,
-	children,
+function EditProveedorModal({
+	selectedProveedor,
+	setSelectedProveedor,
+	editProveedor,
 }: {
-	addProveedor: (newProveedor: Proveedor) => void;
-	children: React.ReactNode;
+	selectedProveedor: Proveedor | null;
+	setSelectedProveedor: (proveedor: Proveedor | null) => void;
+	editProveedor: (editedProveedor: Proveedor) => void;
 }) {
-	const [isOpen, setIsOpen] = useState(false);
 	const [countries, setCountries] = useState<Pais[] | undefined>();
 
 	useEffect(() => {
@@ -37,8 +37,14 @@ function NewProveedorModal({
 	}, []);
 
 	return (
-		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>{children}</DialogTrigger>
+		<Dialog
+			open={selectedProveedor !== null}
+			onOpenChange={(open) => {
+				if (!open) {
+					setSelectedProveedor(null);
+				}
+			}}
+		>
 			{countries === undefined ? (
 				<DialogContent className="flex">
 					<DialogTitle className="sr-only">
@@ -55,7 +61,7 @@ function NewProveedorModal({
 					aria-describedby="Atributos necesarios para crear un proveedor"
 				>
 					<DialogHeader>
-						<DialogTitle>Crear un proveedor</DialogTitle>
+						<DialogTitle>Editar un proveedor</DialogTitle>
 						<DialogDescription className="sr-only">
 							Crea un proveedor con los atributos de el formulario
 						</DialogDescription>
@@ -63,10 +69,28 @@ function NewProveedorModal({
 
 					<ProveedorForm
 						countries={countries}
-						onSuccess={(newProveedor) => {
-							toast.success("Proveedor creado correctamente");
-							setIsOpen(false);
-							addProveedor(newProveedor);
+						proveedor={
+							selectedProveedor || {
+								id: "",
+								razonSocial: "",
+								nombreComercial: "",
+								identificacionTributaria: 0,
+								numeroTelefonico: "",
+								correoElectronico: "",
+								sitioWeb: "",
+								direccionFisica: "",
+								paisId: "",
+								facturacionAnual: 0,
+								fechaUltimaEdicion: "",
+							}
+						}
+						onSuccess={(editedProveedor) => {
+							toast.success("Proveedor editado con éxito");
+							setSelectedProveedor(null);
+							editProveedor(editedProveedor);
+						}}
+						onError={() => {
+							toast.error("Error editando proveedor");
 						}}
 					/>
 				</DialogContent>
@@ -74,4 +98,4 @@ function NewProveedorModal({
 		</Dialog>
 	);
 }
-export default NewProveedorModal;
+export default EditProveedorModal;
