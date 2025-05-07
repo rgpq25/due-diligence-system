@@ -178,14 +178,14 @@ export const interpolColumns: ColumnDef<InterpolHit>[] = [
 		},
 	},
 	{
-		accessorKey: "name",
+		accessorKey: "familyName",
 		header: () => (
 			<p className="text-muted-foreground text-xs font-medium group-hover:text-black ml-2">
-				Name
+				Family Names
 			</p>
 		),
 		cell: ({ row }) => {
-			return <p className="ml-2 text-xs">{row.getValue("name")}</p>;
+			return <p className="ml-2 text-xs">{row.getValue("familyName")}</p>;
 		},
 	},
 	{

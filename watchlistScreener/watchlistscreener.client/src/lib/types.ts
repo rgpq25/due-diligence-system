@@ -43,7 +43,7 @@ export type SecopHit = {
 
 export type InterpolHit = {
 	id: string;
-	name: string;
+	familyName: string;
 	forename: string;
 	nationalities: string[];
 	dateOfBirth: string;

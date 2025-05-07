@@ -1,36 +1,79 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
+
+function getPermutation(string) {
+	const parts = string.split(" ");
+	const permutations = [];
+
+	const n = parts.length;
+	permutations.push({
+		forename: "",
+		familyName: string,
+	});
+	for (let i = 0; i < n; i++) {
+		for (let j = i + 1; j <= n; j++) {
+			const part = parts.slice(i, j).join(" ");
+			const rest = [...parts.slice(0, i), ...parts.slice(j)].join(" ");
+			permutations.push({
+				forename: part,
+				familyName: rest,
+			});
+		}
+	}
+	return permutations;
+}
 
 export async function fetchInterpolData({ razonSocial, nombreComercial }) {
-    //TODO: For now it only uses razonSocial
-    const baseUrl = 'https://ws-public.interpol.int/notices/v1/red';
-    const params = new URLSearchParams();
+	const baseUrl = "https://ws-public.interpol.int/notices/v1/red";
+	const searchInputs = [razonSocial, nombreComercial];
 
-    const razonSocialParts = razonSocial.split(" ").map(part => part.trim());
-    
-    if (razonSocialParts.length > 0) params.append('forename', razonSocial.split(" ")[0]);
-    if (razonSocialParts.length > 1) params.append('name', razonSocial.split(" ").slice(1).join(" "));
-    params.append('resultPerPage', '160');
+	const hits = [];
+	for (let i = 0; i < searchInputs.length; i++) {
+		const currentInput = searchInputs[i];
 
-    const url = `${baseUrl}?${params.toString()}`;
+		if (!currentInput || currentInput === "") continue;
 
-    const response = await fetch(url, {
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0'
-        }
-    });
+		const currentInputPermutations = getPermutation(currentInput);
 
-    if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
+		for (let j = 0; j < currentInputPermutations.length; j++) {
+			const params = new URLSearchParams();
 
-    const data = await response.json();
+			const { forename, familyName } = currentInputPermutations[j];
 
-    return data._embedded.notices.map((notice, idx) => ({
-        id: idx,
-        name: notice.name,
-        forename: notice.forename,
-        nationalities: notice.nationalities,
-        dateOfBirth: notice.date_of_birth,
-        link: notice._links.self.href,
-    }));
+			if (forename.length !== 0) params.append("forename", forename);
+			if (familyName.length !== 0) params.append("name", familyName);
+			params.append("resultPerPage", "160");
+
+			const url = `${baseUrl}?${params.toString()}`;
+
+			const response = await fetch(url, {
+				headers: {
+					"User-Agent":
+						"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0",
+				},
+			});
+
+			if (!response.ok) {
+				continue;
+			}
+
+			const data = await response.json();
+			const currentHits = data._embedded.notices.map((notice, idx) => ({
+				id: idx,
+				familyName: notice.name,
+				forename: notice.forename,
+				nationalities: notice.nationalities,
+				dateOfBirth: notice.date_of_birth,
+				link: notice._links.self.href,
+			}));
+			hits.push(...currentHits);
+		}
+	}
+
+	const uniqueHitsMap = new Map();
+	for (const hit of hits) {
+		if (!uniqueHitsMap.has(hit.link)) {
+			uniqueHitsMap.set(hit.link, hit);
+		}
+	}
+	return Array.from(uniqueHitsMap.values());
 }
