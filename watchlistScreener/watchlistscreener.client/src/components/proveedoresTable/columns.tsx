@@ -211,6 +211,11 @@ export function getColumns({
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
 								onClick={() => {
+									window.open(
+										`/screening/${proveedor.id}`,
+										"_blank",
+										"width=1000,height=800"
+									);
 									onScreening(proveedor);
 								}}
 							>

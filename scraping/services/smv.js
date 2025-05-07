@@ -64,6 +64,8 @@ export async function fetchSMVData({ razonSocial, nombreComercial }) {
 		);
 	});
 
+	const sancionesHits = [];
+
 	for (const hit of hits) {
 		if (!hit.ver_detalle) continue;
 
@@ -76,7 +78,7 @@ export async function fetchSMVData({ razonSocial, nombreComercial }) {
 		await popup.waitForLoadState("domcontentloaded");
 		await popup.waitForSelector("#grdReporte");
 
-		hit.sanciones = await popup.$$eval("#grdReporte tbody tr", (rows) => {
+		const sancionesToAdd = await popup.$$eval("#grdReporte tbody tr", (rows) => {
 			return Array.from(rows)
 				.filter((row) => row.querySelectorAll("td").length > 0)
 				.map((row) => {
@@ -108,10 +110,17 @@ export async function fetchSMVData({ razonSocial, nombreComercial }) {
 					};
 				});
 		});
+
+		sancionesHits.push(...sancionesToAdd);
 		await popup.close();
 	}
 	await browser.close();
 	await page.close();
 
-	return hits;
+	return sancionesHits.map((sancion, idx) => {
+		return {
+			id: idx,
+			...sancion,
+		}
+	});
 }

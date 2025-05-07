@@ -9,7 +9,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Proveedores />} />
-				<Route path="/screening" element={<ProveedorScreening />} />
+				<Route path="/screening/:proveedorId" element={<ProveedorScreening />} />
 			</Routes>
 			<Toaster richColors />
 		</BrowserRouter>

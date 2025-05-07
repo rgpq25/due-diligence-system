@@ -59,35 +59,6 @@ export function DataTable<TData, TValue>({
 		},
 	});
 
-	function fetchScreening({
-		razonSocial,
-		nombreComercial,
-		identificacionTributaria,
-	}: {
-		razonSocial: string;
-		nombreComercial: string;
-		identificacionTributaria: string;
-	}) {
-		console.log("Fetching screening for:", {
-			razonSocial,
-			nombreComercial,
-			identificacionTributaria,
-		});
-
-		fetch(
-			`http://localhost:3000/api/watchlist-check?razonSocial=${razonSocial}&nombreComercial=${nombreComercial}&identificacionTributaria=${identificacionTributaria}&sources=interpol,smv,secop`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		)
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-			.catch((error) => console.error(error));
-	}
-
 	return (
 		<div>
 			<div className="flex items-center mt-4">
@@ -151,9 +122,9 @@ export function DataTable<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className="h-24 text-center"
+									className="h-24 text-center text-muted-foreground"
 								>
-									No results.
+									No hay resultados.
 								</TableCell>
 							</TableRow>
 						)}

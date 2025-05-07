@@ -37,12 +37,13 @@ export async function fetchSECOPData({
 	const res = await fetch(url);
 	const data = await res.json();
 
-	const mappedData = data.map((item) => {
+	const mappedData = data.map((item, idx) => {
 		return {
-			documento_contratista: item.documento_contratista,
-			nombre_contratista: item.nombre_contratista,
-			valor_sancion: item.valor_sancion,
-			fecha_de_publicacion: item.fecha_de_publicacion,
+			id: idx,
+			documentoContratista: item.documento_contratista,
+			nombreContratista: item.nombre_contratista,
+			valorSancion: item.valor_sancion,
+			fechaDePublicacion: item.fecha_de_publicacion,
 		};
 	});
 

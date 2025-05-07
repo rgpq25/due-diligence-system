@@ -36,6 +36,10 @@ router.get("/watchlist-check", async (req, res) => {
 			nombreComercial: nombreComercial ?? "",
 		});
 		console.log("[SMV] - ", result.smv.length);
+
+		result.hits += result.smv.length;
+	} else {
+		result.smv = null;
 	}
 
 	if (selectedSources.includes("secop")) {
@@ -45,6 +49,11 @@ router.get("/watchlist-check", async (req, res) => {
 			identificacionTributaria: identificacionTributaria ?? "",
 		});
 		console.log("[SECOP] - ", result.secop.length);
+
+		result.hits += result.secop.length;
+	}
+	else {
+		result.secop = null;
 	}
 
 	if (selectedSources.includes("interpol")) {
@@ -53,10 +62,12 @@ router.get("/watchlist-check", async (req, res) => {
 			nombreComercial: nombreComercial ?? "",
 		});
 		console.log("[INTERPOL] - ", result.interpol.length);
-	}
 
-	result.hits =
-		result.interpol.length + result.secop.length + result.smv.length;
+		result.hits += result.interpol.length;
+	}
+	else {
+		result.interpol = null;
+	}
 
 	res.json(result);
 });

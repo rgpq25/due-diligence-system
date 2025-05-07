@@ -25,11 +25,12 @@ export async function fetchInterpolData({ razonSocial, nombreComercial }) {
 
     const data = await response.json();
 
-    return data._embedded.notices.map((notice) => ({
+    return data._embedded.notices.map((notice, idx) => ({
+        id: idx,
         name: notice.name,
         forename: notice.forename,
         nationalities: notice.nationalities,
-        date_of_birth: notice.date_of_birth,
+        dateOfBirth: notice.date_of_birth,
         link: notice._links.self.href,
     }));
 }

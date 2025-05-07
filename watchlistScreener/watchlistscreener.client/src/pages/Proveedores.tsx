@@ -75,15 +75,6 @@ export default function Proveedores() {
 		getProveedores();
 	}, []);
 
-	const contents =
-		proveedores === undefined ? (
-			<main className="flex-1 flex">
-				<Loader2 className="animate-spin size-8 m-auto" />
-			</main>
-		) : (
-			<DataTable className="" columns={columns} data={proveedores} />
-		);
-
 	return (
 		<main className="p-8 flex flex-col min-h-dvh">
 			<header className="flex flex-row justify-between items-center">
@@ -97,7 +88,14 @@ export default function Proveedores() {
 					<Button>Crear proveedor</Button>
 				</NewProveedorModal>
 			</header>
-			{contents}
+
+			{proveedores === undefined ? (
+				<main className="flex-1 flex">
+					<Loader2 className="animate-spin size-8 m-auto" />
+				</main>
+			) : (
+				<DataTable className="" columns={columns} data={proveedores} />
+			)}
 
 			<EditProveedorModal
 				selectedProveedor={proveedorToEdit}
